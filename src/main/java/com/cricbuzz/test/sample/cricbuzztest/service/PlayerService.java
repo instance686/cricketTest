@@ -23,5 +23,13 @@ public interface PlayerService {
 	String updatePlayerBattingStats(PlayerStatsBatting playerBattingStats);
 
 	String deletePlayerBattingStats(Long id);
+	
+	String insertBowlingStats(PlayerStatsBowling playerBattingStats);
+
+	String getPlayerBowlingStats(Long id);
+
+	String updatePlayerBowlingStats(PlayerStatsBowling playerBattingStats);
+
+	String deletePlayerBowlingStats(Long id);
 
 }

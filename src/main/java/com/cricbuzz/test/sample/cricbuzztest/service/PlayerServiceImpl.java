@@ -122,8 +122,66 @@ public class PlayerServiceImpl implements PlayerService {
 
 	@Override
 	public String deletePlayerBattingStats(Long id) {
-		// TODO Auto-generated method stub
-		return null;
+		Optional<PlayerStatsBatting> playerBattingStats1=playerBattingStatsRepo.findById(id);
+		if(playerBattingStats1.isPresent()) {
+			playerBattingStatsRepo.deleteById(id);
+			return JSONUtils.getSuccessJson("deletion");
+		} else
+			return JSONUtils.getFailJsonWithReason("Wrong Player id");
+	}
+
+	@Override
+	public String insertBowlingStats(PlayerStatsBowling playerBowlingStats) {
+		Optional<Player> player = playerRepository.findById(playerBowlingStats.getPlayerId());
+		if (player.isPresent()) {
+			playerBowlingStats.setCreationTime(Timings.currentTime());
+			playerBowlingStatsRepo.save(playerBowlingStats);
+			return JSONUtils.getSuccessJson("insertion", playerBowlingStats);
+		} else
+			return JSONUtils.getFailJsonWithReason("Wrong Player id");
+
+	}
+
+	@Override
+	public String getPlayerBowlingStats(Long id) {
+		Optional<Player> player = playerRepository.findById(id);
+		if (player.isPresent()) {
+			List<PlayerStatsBowling> stats = playerBowlingStatsRepo.findByPlayerId(id);
+			if (stats != null)
+				return JSONUtils.getSuccessJson("fetch", stats);
+			else
+				return JSONUtils.getFailJsonWithReason("No stats for this player");
+		} else
+			return JSONUtils.getFailJsonWithReason("Wrong Player id");
+	}
+
+	@Override
+	public String updatePlayerBowlingStats(PlayerStatsBowling playerBowlingStats) {
+		Optional<PlayerStatsBowling> playerBowlingStats1=playerBowlingStatsRepo.findById(playerBowlingStats.getId());
+		if(playerBowlingStats1.isPresent()) {
+		Optional<Player> player = playerRepository.findById(playerBowlingStats.getPlayerId());
+		if(player.isPresent()) {
+			playerBowlingStats.setUpdationTime(Timings.currentTime());
+			playerBowlingStatsRepo.save(playerBowlingStats);
+			return JSONUtils.getSuccessJson("updation", playerBowlingStats);
+		}
+		else
+			return JSONUtils.getFailJsonWithReason("Wrong Player id");
+		}
+		else {
+			return JSONUtils.getFailJsonWithReason("Wrong Batting Stats ID");
+
+		}
+	}
+
+	@Override
+	public String deletePlayerBowlingStats(Long id) {
+		Optional<PlayerStatsBowling> playerBowlingStats1=playerBowlingStatsRepo.findById(id);
+		if(playerBowlingStats1.isPresent()) {
+			playerBowlingStatsRepo.deleteById(id);
+			return JSONUtils.getSuccessJson("deletion");
+		} else
+			return JSONUtils.getFailJsonWithReason("Wrong Player id");
 	}
 
 

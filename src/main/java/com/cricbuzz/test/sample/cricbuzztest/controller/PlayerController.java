@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.cricbuzz.test.sample.cricbuzztest.model.Player;
 import com.cricbuzz.test.sample.cricbuzztest.model.PlayerStatsBatting;
+import com.cricbuzz.test.sample.cricbuzztest.model.PlayerStatsBowling;
 import com.cricbuzz.test.sample.cricbuzztest.service.PlayerService;
 
 @RestController
@@ -58,8 +59,28 @@ public class PlayerController {
 	}
 	
 	@DeleteMapping("/api/player/batting/stats")
-	public ResponseEntity<String> deletePlayerStatsById(@RequestParam Long statsid) {
+	public ResponseEntity<String> deletePlayerBattingStatsById(@RequestParam Long statsid) {
 		return new ResponseEntity<String>(playerService.deletePlayerBattingStats(statsid), HttpStatus.OK);
+	}
+	
+	@PostMapping(value ="/api/player/bowling/stats",produces = "application/json", consumes = "application/json")
+	public ResponseEntity<String> insertBowlingStats(@RequestBody PlayerStatsBowling playerBowlingStats) {
+		return new ResponseEntity<String>(playerService.insertBowlingStats(playerBowlingStats), HttpStatus.CREATED);
+	}
+	
+	@GetMapping("/api/player/bowling/stats/{id}")
+	public ResponseEntity<String> getPlayerBowlingStats(@PathVariable("id") Long playerId) {
+		return new ResponseEntity<String>(playerService.getPlayerBowlingStats(playerId), HttpStatus.OK);
+	}
+	
+	@PutMapping(value ="/api/player/bowling/stats",produces = "application/json", consumes = "application/json")
+	public ResponseEntity<String> updatePlayerBowlingStats(@RequestBody PlayerStatsBowling playerBowlingStats) {
+		return new ResponseEntity<String>(playerService.updatePlayerBowlingStats(playerBowlingStats), HttpStatus.OK);
+	}
+	
+	@DeleteMapping("/api/player/bowling/stats")
+	public ResponseEntity<String> deletePlayerBowlingStatsById(@RequestParam Long statsid) {
+		return new ResponseEntity<String>(playerService.deletePlayerBowlingStats(statsid), HttpStatus.OK);
 	}
 
 	
